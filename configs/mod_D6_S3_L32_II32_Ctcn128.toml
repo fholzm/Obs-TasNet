@@ -1,0 +1,64 @@
+### Model parameters ###
+samplerate = 16000
+nfft = 512
+hopsize = 256
+
+model.name = "ObsTasNet"
+model.L = 32
+model.F = 256
+model.F_b = 128
+model.L_b = 8
+model.C_b = 64
+model.C_TCN = 128
+model.D = 6
+model.S = 3
+model.TCN_kernelsize = [3,3]
+model.delay = 64
+
+### Training parameters ###
+train.pretrained = true
+train.batch_size = 100
+train.n_batches = -1
+train.inference_interval = 32  # Inference interval in blocks
+train.num_process = 16
+train.optimizer = "adam"
+train.lr_start = 1e-4
+train.lr_end = 1e-5
+train.lr_epoch = 50
+train.weight_decay = 0.0
+train.seed = 4
+train.max_epochs = 50
+train.normalized_loss = true
+
+### Validation parameters
+valid.batch_size = 100
+valid.n_batches = -1
+valid.inference_interval = 32  # Inference interval in blocks
+valid.num_process = 16
+valid.seed = 76
+valid.only = false
+valid.export_metrics = false
+valid.export_path = "export"
+valid.psd_nfft = 1024
+valid.debug_audio = true
+
+### Paths ###
+tensorboard_path = "tensorboard"
+checkpoint_path = "./checkpoints"
+filename = "mod_D6_S3_L32_II32_Ctcn128"
+N_log_epochs = 2
+log_wandb = false
+
+### Data ###
+data.directory = "./data/mixed"
+data.c = 343
+
+cuda_visible_devices = "1"
+
+### Geometrical configureation ###
+# Tetrahedral microphone array
+data.rmic.position =  [[1, 1, 1],
+                       [1, -1, -1],
+                       [-1, 1, -1],
+                       [-1, -1, 1]]
+data.rmic.scale = 0.1

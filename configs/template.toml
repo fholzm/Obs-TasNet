@@ -1,0 +1,64 @@
+### Model parameters ###
+samplerate = 16000
+nfft = 512  # Serves also as window length for the input signal (W)
+hopsize = 256
+
+model.name = "ObsTasNet"
+model.L = 32  # Number of input signal blocks per inference
+model.F = 256  # Number of encoder features
+model.F_b = 128  # Feature dimension after bottleneck layer
+model.L_b = 8  # Temporal dimension after bottleneck layer
+model.C_b = 64  # Channel dimension after bottleneck layer
+model.C_TCN = 256  # Channels in the TCN convolution blocks
+model.D = 6  # Number of TCN convolution blocks per stack
+model.S = 3  # Number of TCN stacks
+model.TCN_kernelsize = [3,3]  # Kernel size of the TCN convolution blocks
+model.delay = 64  # Delay in samples for delayed RMT
+
+### Training parameters ###
+train.pretrained = true  # If true, the model is initialized with the pretrained weights from the pretraining phase
+train.batch_size = 100  # Batch size for training
+train.n_batches = -1  # Limit number of batches per epoch, used mainly for debugging
+train.inference_interval = 32  # Inference interval in blocks
+train.num_process = 16  # Number of workers for data loading
+train.optimizer = "adam"  # Optimizer for training, currently only "adam" and "adamw" are implemented
+train.lr_start = 1e-4  # Starting learning rate
+train.lr_end = 1e-5  # Ending learning rate after decay
+train.lr_epoch = 50  # Epoch after which the learning rate stops to decay
+train.weight_decay = 0.0  # Weight decay for the optimizer
+train.seed = 4  # Random seed for reproducibility
+train.max_epochs = 50  # Maximum number of epochs for training
+train.normalized_loss = true  # If true, the loss is normalized by the ground truth signal's RMS value
+
+### Validation parameters
+valid.batch_size = 500  # Batch size for validation
+valid.n_batches = -1  # Limit number of batches for validation, used mainly for debugging
+valid.inference_interval = 32  # Inference interval in blocks
+valid.num_process = 16  # Number of workers for data loading
+valid.seed = 76  # Random seed for reproducibility
+valid.only = false  # If true, only validation and no training is performed
+valid.export_metrics = false  # If true, the validation metrics are exported
+valid.export_path = "export"  # Path where the validation metrics are exported
+valid.psd_nfft = 1024  # NFFT for the PSD estimation for the spatial metrics
+valid.debug_audio = true  # If true, the separated audio signals from the validation are exported to the tensorboard/wandb for debugging purposes
+
+### Paths ###
+tensorboard_path = "tensorboard"  # Path for tensorboard logs
+checkpoint_path = "./checkpoints"  # Path where the model checkpoints are saved/loaded
+filename = "template"  # Filename for the model checkpoint, tensorboard logs and exported metrics
+N_log_epochs = 2  # Number of epochs after which validation is performed and logged to tensorboard/wandb
+log_wandb = false  # If true, the training and validation metrics are logged online to wandb
+
+### Data ###
+data.directory = "./data/mixed"  # Directory where the data is stored, should contain the subdirectories "train" and "valid"
+data.c = 343  # Speed of sound in m/s, used for the geometrical configuration of the microphone array and the sources
+
+cuda_visible_devices = "0"  # String for the CUDA_VISIBLE_DEVICES environment variable, e.g. "0" to use the first GPU
+
+### Geometrical configureation ###
+# Tetrahedral microphone array in Cartesian coordinates, the actual microphone positions are obtained by multiplying the scale factor with these coordinates
+data.rmic.position =  [[1, 1, 1],
+                       [1, -1, -1],
+                       [-1, 1, -1],
+                       [-1, -1, 1]]
+data.rmic.scale = 0.1

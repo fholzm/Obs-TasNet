@@ -1,6 +1,6 @@
 # Deep Observationfilter
 
-[![Github Repository](https://img.shields.io/badge/github-repo-blue?logo=github)](https://github.com/fholzm/Obs-TasNet)
+[![Github Repository](https://img.shields.io/badge/github-repo-blue?logo=github)](https://github.com/fholzm/Obs-TasNet) [![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.18872900.svg)](https://doi.org/10.5281/zenodo.18872900)
 
 This contains the checkpoints and code for data generation, training, and evaluation of Obs-TasNet, a deep learning-based observation filter for virtual sensing in active noise control (ANC).
 
